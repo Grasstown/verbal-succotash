@@ -1,0 +1,43 @@
+#!/bin/bash
+printf "This script will install bspwm on your system, and has only been tested on Ubuntu 18.04 LTS. Proceed? (y/n) "
+
+read -r proceed
+
+if [ "$proceed" = "n" ]
+then
+	echo "Terminated."
+	exit 1
+fi
+
+printf "\nInstalling dependencies...\n"
+sudo apt-get -y install gcc make libxcb-xinerama0-dev libxcb-icccm4-dev libxcb-randr0-dev libxcb-util0-dev libxcb-ewmh-dev libxcb-keysyms1-dev libxcb-shape0-dev rxvt-unicode
+
+printf "\nCloning repositories...\n"
+git clone https://github.com/baskerville/bspwm.git
+mv $HOME/bin/bspwm/ $HOME/
+git clone https://github.com/baskerville/sxhkd.git
+mv $HOME/bin/sxhkd/ $HOME/
+
+printf "\nInstalling...\n"
+cd $HOME/bspwm && make && sudo make install
+cd $HOME/sxhkd && make && sudo make install
+
+printf "\nConfiguring keybinds...\n"
+mkdir -p $HOME/.config/{bspwm,sxhkd}
+cp /usr/local/share/doc/bspwm/examples/bspwmrc $HOME/.config/bspwm/
+cp /usr/local/share/doc/bspwm/examples/sxhkdrc $HOME/.config/sxhkd/
+chmod u+x $HOME/.config/bspwm/bspwmrc
+
+printf "\nDo you use a display manager? (y/n) "
+
+read -r dm
+
+if [ "$dm" = "y" ]
+then 
+	sudo cp $HOME/bspwm/contrib/freedesktop/bspwm.desktop /usr/share/xsessions
+else
+	
+	echo "exec bspwm" >> $HOME/.xinitrc
+fi
+
+echo "Done."
