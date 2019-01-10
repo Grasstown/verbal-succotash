@@ -1,0 +1,12 @@
+#!/bin/bash
+
+
+if [ grep -Fxq "allow-guests=false" /etc/lightdm/users.conf -eq 1 ]
+then
+	if grep -Fxq "allow-guests" /etc/lightdm/users.conf
+	then
+		sudo sed -i 's/allow-guests/allow-guests=false/g' /etc/lightdm/users.con
+	fi
+else
+	sudo echo "allow-guests=false" >> /etc/lightdm/users.conf
+fi
