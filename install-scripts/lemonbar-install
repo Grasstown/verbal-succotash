@@ -1,0 +1,21 @@
+#!/bin/bash
+printf "This script will install bspwm on your system, and has only been tested on Ubuntu 18.04 LTS. Proceed? (y/n) "
+
+read -r proceed
+
+if [ "$proceed" = "n" ]
+then
+	echo "Terminated."
+	exit 1
+fi
+
+printf "\nInstalling dependencies...\n"
+sudo apt-get -y install libxcb-xinerama0-dev libxcb-randr0-dev
+
+printf "\nCloning repositories...\n"
+git clone https://github.com/LemonBoy/bar.git $HOME/bar
+
+printf "\nInstalling...\n"
+cd $HOME/bar
+make
+sudo make install
