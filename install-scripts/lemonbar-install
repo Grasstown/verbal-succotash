@@ -1,5 +1,5 @@
 #!/bin/bash
-printf "This script will install bspwm on your system, and has only been tested on Ubuntu 18.04 LTS. Proceed? (y/n) "
+printf "This script will install lemonbar on your system, and has only been tested on Ubuntu 18.04 LTS. Proceed? (y/n) "
 
 read -r proceed
 
@@ -19,3 +19,5 @@ printf "\nInstalling...\n"
 cd $HOME/bar
 make
 sudo make install
+
+printf "Done."
